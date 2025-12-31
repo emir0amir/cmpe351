@@ -46,12 +46,12 @@ void writetofile(const std::string& , struct node* , struct node* , struct node*
 struct node *swapnodes(struct node *,struct node *);
 struct node *removeNode(struct node *header, int numbering);
 int count(struct node *);
-void printlist2(struct node *header2);
+struct node* filterByQueue(struct node* , int );
+void computeWaitingTimes(struct node* );
 void sortarrival(struct node **, int);
 void sortburst(struct node **, int);
 void sortpriority(struct node **, int);
 void sortnumbering(struct node **, int);
-void sortList(struct node **head);
 void printlist(struct node *header);
 
 struct node *FSFC(struct node *, struct node **);
@@ -160,3 +160,89 @@ string outputFile = argv[2];
 
         return 0;
         }
+
+struct node *createnode(int item1, int item2, int item3, int queueId, int item4)
+{
+	struct node *temp;
+	temp = (struct node *)malloc(sizeof(node));
+	temp->burst = item1;
+	temp->arrival = item2;
+	temp->prority = item3;
+    temp->queueId = queueId;
+	temp->numbering = item4;
+	temp->waitingTime = 0;
+	temp->next = NULL;
+	
+	return temp;
+}
+
+struct node *createmininode(int item1)
+{
+	struct node *temp;
+	temp = (struct node *)malloc(sizeof(node));
+	temp->burst = item1;
+	temp->next = NULL;
+	
+	return temp;
+}
+
+struct node *createmidnode(int item1, int item2)
+{
+	struct node *temp;
+	temp = (struct node *)malloc(sizeof(node));
+	temp->burst = item1;
+	temp->numbering = item2;
+	temp->next = NULL;
+	
+	return temp;
+}
+int is_empty(struct node *header)
+{
+	if(header == NULL)
+	{
+		return 1;
+	}
+	else
+	{
+		return 0;
+	}
+}
+
+struct node *insertFront(struct node *header, int item1, int item2, int item3, int queueId, int item4)
+{
+	struct node *temp;
+	temp = createnode(item1,item2,item3,queueId,item4);
+	temp->next = header;
+	header =  temp;
+	
+	return header;
+}
+
+struct node *insertminiFront(struct node *header, int item)
+{
+	struct node *temp;
+	temp = createmininode(item);
+	temp->next = header;
+	header =  temp;
+	
+	return header;
+}
+
+struct node *insertBack(struct node *header, int item1, int item2, int item3, int queueId, int item4)
+{
+    if (header == NULL)
+        return createnode(item1, item2, item3, queueId, item4);
+
+    struct node *temp;
+    struct node *ht;
+
+    temp = createnode(item1, item2, item3, queueId, item4);
+    ht = header;
+
+    while (ht->next != NULL) {
+        ht = ht->next;
+    }
+
+    ht->next = temp;
+    return header;
+}
