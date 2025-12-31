@@ -98,8 +98,11 @@ string outputFile = argv[2];
 	  ifstream input(inputFile.c_str());
 
     if (input.is_open()) 
-	  {
-       while (input >> item_1 >> item_2 >> item_3 >> queueId) 
+	  {char colon;
+       while (input >> item_1 >> colon
+             >> item_2 >> colon
+             >> item_3 >> colon
+             >> queueId) 
        {
     if (header == NULL) {
         header = createnode(item_1, item_2, item_3, queueId, item_4);
@@ -157,28 +160,3 @@ string outputFile = argv[2];
 
         return 0;
         }
-
-struct node *createnode(int item1, int item2, int item3, int queueId, int item4)
-{
-	struct node *temp;
-	temp = (struct node *)malloc(sizeof(node));
-	temp->burst = item1;
-	temp->arrival = item2;
-	temp->prority = item3;
-    temp->queueId = queueId;
-	temp->numbering = item4;
-	temp->waitingTime = 0;
-	temp->next = NULL;
-	
-	return temp;
-}
-
-struct node *createmininode(int item1)
-{
-	struct node *temp;
-	temp = (struct node *)malloc(sizeof(node));
-	temp->burst = item1;
-	temp->next = NULL;
-	
-	return temp;
-}
